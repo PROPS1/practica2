@@ -1,36 +1,40 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Text.RegularExpressions;
 
-namespace practica1
+namespace Lesson1_Exercise1_CS
 {
   class Program
   {
-
-    struct person
-    {
-      public enum genders : int { male, female };
-      public string firstname;
-      public string secondname;
-      int age;
-      public genders gender;
-      public person(string _firstname, string _secondname, int _age, genders _gender)
-      {
-        firstname = _firstname;
-        secondname = _secondname;
-        age = _age;
-        gender = _gender;
-      }
-      public override string ToString()
-      {
-        return firstname + " " + secondname + " (" + gender + "),age " + age;
-      }
-    }
     static void Main(string[] args)
     {
+      string[] input = { "(555)555-1212",
+                              "(555) 555-1212",
+                              "555-555-1212",
+                              "5555551212",
+                              "01111",
+                              "01111-1111",
+                              "47",
+                              "111-11-1111",
+                              "8005555535"};
+      foreach (string s in input)
+      {
+        if (IsPhone(s)) Console.WriteLine(s + " is a phone number");
+        else if (IsZip(s)) Console.WriteLine(s + " is a zip code");
+        else Console.WriteLine(s + " is unknown");
+      }
+      Console.ReadLine();
+    }
 
-      person p = new person("Tony", "Allen", 32, person.genders.male);
-      GC.Collect();
-      Console.WriteLine(p.ToString());
+    static bool IsPhone(string s)
+    {
+      return Regex.IsMatch(s, @"^\(?\d{3}\)?[\s\-]?\d{3}\-?\d{4}$");
+    }
+
+    static bool IsZip(string s)
+    {
+      return Regex.IsMatch(s, @"^\d{5}(\-\d{4})?$");
     }
   }
 }
-
